@@ -2,7 +2,7 @@
 import { pool, connectToDB } from "./connection.js";
 import inquirer from 'inquirer';
 await connectToDB();
-//CREATE DB SCHEMA TABLE
+//CREATE DB SCHEMA TABLE: -DROP TABLES AND CREATE department, role, employee TABLES:
 async function dropTables() {
     try {
         await pool.query('DROP TABLE IF EXISTS employee, role, department;');
@@ -53,7 +53,16 @@ async function createTables() {
 // - VIEW ALL DEPARTMENTS
 // - ADD DEPARTMENT
 // - QUIT 
-function prompt() {
+async function viewAllEmployees() {
+    try {
+        const result = await pool.query('SELECT * FROM employee;');
+        console.log(result.rows);
+    }
+    catch (err) {
+        console.error('ERROR WITH VIEWING ALL EMPLOYEES: ' + err);
+    }
+}
+async function prompt() {
     let exit = false;
     inquirer
         .prompt([
@@ -73,16 +82,40 @@ function prompt() {
             ],
         },
     ])
-        .then((answers));
-    {
+        .then((answers) => {
         if (answers.action === 'View All Employees') {
-            console.log('VIEW ALL EMPLOYEES');
+            viewAllEmployees();
         }
-    }
+        else if (answers.action === 'Add Employee') {
+            console.log('empty');
+        }
+        else if (answers.action === 'Update Employee Role') {
+            console.log('empty');
+        }
+        else if (answers.action === 'View all Roles') {
+            console.log('empty');
+        }
+        else if (answers.action === 'Add Role') {
+            console.log('empty');
+        }
+        else if (answers.action === 'View All Departments') {
+            console.log('empty');
+        }
+        else if (answers.action === 'Add Department') {
+            console.log('empty');
+        }
+        else {
+            exit = true;
+        }
+        if (!exit) {
+            prompt();
+        }
+    });
 }
 async function init() {
     await dropTables();
     await createTables();
+    console.log('\n\n---EMPLOYEE MANAGER---\n');
     prompt();
 }
 init();

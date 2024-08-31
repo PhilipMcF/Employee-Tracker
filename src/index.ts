@@ -57,8 +57,25 @@ async function createTables() {
 // - VIEW ALL DEPARTMENTS
 // - ADD DEPARTMENT
 // - QUIT 
+async function viewAllEmployees() {
+    try {
+        const result = await pool.query('SELECT * FROM employee;');
+        console.log(result.rows);
+    } catch (err) {
+        console.error('ERROR WITH VIEWING ALL EMPLOYEES: ' + err);
+    }
+}
 
-function prompt(){
+async function addEmployee() {
+    try {
+        const result = await pool.query('SELECT * FROM employee;');
+        console.log(result.rows);
+    } catch (err) {
+        console.error('ERROR WITH VIEWING ALL EMPLOYEES: ' + err);
+    }
+}
+
+async function prompt(){
     let exit: boolean = false;
     inquirer
         .prompt([
@@ -80,25 +97,25 @@ function prompt(){
         ])
         .then((answers) => {
             if (answers.action === 'View All Employees'){
-                console.log('VIEW ALL EMPLOYEES');
+                viewAllEmployees();
             }
             else if (answers.action === 'Add Employee'){
-
+                addEmployee();
             }
             else if (answers.action === 'Update Employee Role'){
-
+                console.log('empty');
             }
             else if (answers.action === 'View all Roles'){
-
+                console.log('empty');
             }
             else if (answers.action === 'Add Role'){
-
+                console.log('empty');
             }
             else if (answers.action === 'View All Departments'){
-
+                console.log('empty');
             }
             else if (answers.action === 'Add Department'){
-
+                console.log('empty');
             }
             else {
                 exit = true;
@@ -113,6 +130,7 @@ function prompt(){
 async function init(){
     await dropTables();
     await createTables();
+    console.log('\n\n---EMPLOYEE MANAGER---\n');
     prompt();
 }
 
