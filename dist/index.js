@@ -107,7 +107,30 @@ async function addEmployee() {
 }
 //TODO: 
 async function updateEmployeeRole() {
-    console.log('TO DO');
+    await viewAllEmployees();
+    inquirer
+        .prompt([
+        {
+            type: 'input',
+            name: 'employee_id',
+            message: 'Enter id for employee to update:',
+        },
+        {
+            type: 'input',
+            name: 'role_id',
+            message: 'Enter new role id for employee:',
+        },
+    ])
+        .then(async (answers) => {
+        try {
+            await pool.query(`UPDATE employee SET role_id = ${answers.role_id} WHERE id = ${answers.employee_id};`);
+            console.log('EMPLOYEE ROLE UPDATED.');
+            prompt();
+        }
+        catch (err) {
+            console.error('ERROR WITH UPDATING EMPLOYEE ROLE: ' + err);
+        }
+    });
 }
 async function viewAllRoles() {
     try {
