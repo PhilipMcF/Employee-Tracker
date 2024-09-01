@@ -81,6 +81,7 @@ JOIN department ON role.department_id = department.id;`);
     }
 }
 async function addEmployee() {
+    await viewAllRoles();
     inquirer
         .prompt([
         {
@@ -150,6 +151,7 @@ JOIN department ON role.department_id = department.id;`);
     }
 }
 async function addRole() {
+    await viewAllDepartments();
     inquirer
         .prompt([
         {

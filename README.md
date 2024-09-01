@@ -22,6 +22,11 @@ Technologies used:<br>
 ```bash
 git clone https://github.com/PhilipMcF/Employee-Tracker.git
 ```
+
+- Postgresql will be needed to have the service running and connect to the database:<br>
+https://www.postgresql.org/download/<br>
+You will need to go through the installation and provide the necessary information in the .env file for the database, user, and password.
+
 - Node.JS will be needed as well as the package manager to acquire the necessary modules:<br>
 https://nodejs.org/en/download/package-manager
 
