@@ -47,6 +47,7 @@ async function createTables() {
     await createEmployeeTable();
 }
 
+//SEED TABLES WITH SAMPLE DATA:
 async function seedTables() {
     try {
         await pool.query(`INSERT INTO department (name) VALUES ('Sales'), ('Customer Support');`);
@@ -70,7 +71,11 @@ async function seedTables() {
 // - QUIT 
 async function viewAllEmployees() {
     try {
-        const result = await pool.query('SELECT * FROM employee;');
+        const result = await pool.query(`SELECT employee.id, employee.first_name, employee.last_name,
+department.name AS department, role.title AS role, role.salary
+FROM employee
+JOIN role ON employee.role_id = role.id
+JOIN department ON role.department_id = department.id;`);
         console.log(`\n\nAll Employees:\n`);
         console.log(result.rows);
         console.log('\n');
@@ -109,7 +114,6 @@ async function addEmployee() {
         });
 }
 
-//TODO: 
 async function updateEmployeeRole() {
     await viewAllEmployees();
     inquirer
@@ -138,7 +142,9 @@ async function updateEmployeeRole() {
 
 async function viewAllRoles() {
     try {
-        const result = await pool.query('SELECT * FROM role;');
+        const result = await pool.query(`SELECT role.id, role.title, role.salary, department.name AS department, department.id AS department_id
+FROM role
+JOIN department ON role.department_id = department.id;`);
         console.log(`\n\nAll Roles:\n`);
         console.log(result.rows);
         console.log('\n');
@@ -210,6 +216,7 @@ async function addDepartment(){
         });
 }
 
+//CLI PROMPT
 async function prompt(){
     let exit: boolean = false;
     inquirer
@@ -258,6 +265,7 @@ async function prompt(){
             }
             else {
                 exit = true;
+                return;
             }
             if (!exit){
                 prompt();
