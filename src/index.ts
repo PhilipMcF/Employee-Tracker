@@ -108,6 +108,52 @@ async function addEmployee() {
         });
 }
 
+//TODO: 
+async function updateEmployeeRole() {
+    console.log('TO DO');
+}
+
+async function viewAllRoles() {
+    try {
+        const result = await pool.query('SELECT * FROM role;');
+        console.log(`\n\nAll Roles:\n`);
+        console.log(result.rows);
+    }
+    catch (err) {
+        console.error('ERROR WITH VIEWING ALL ROLES: ' + err);
+    }
+}
+
+async function addRole(){
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'title',
+                message: 'Enter role title:',
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'Enter role salary:',
+            },
+            {
+                type: 'input',
+                name: 'department_id',
+                message: 'Enter role department id:',
+            },
+        ])
+        .then(async (answers) => {
+            try {
+                await pool.query(`INSERT INTO role (title, salary, department_id) VALUES ('${answers.title}', '${answers.salary}', ${answers.department_id});`);
+                console.log('ROLE ADDED.');
+                prompt();
+            } catch (err) {
+                console.error('ERROR WITH ADDING ROLE: ' + err);
+            }
+        });
+}
+
 async function prompt(){
     let exit: boolean = false;
     inquirer
@@ -137,13 +183,15 @@ async function prompt(){
                 return;
             }
             else if (answers.action === 'Update Employee Role'){
-                console.log('empty');
+                await updateEmployeeRole();
+                return;
             }
-            else if (answers.action === 'View all Roles'){
-                console.log('empty');
+            else if (answers.action === 'View All Roles'){
+                await viewAllRoles();
             }
             else if (answers.action === 'Add Role'){
-                console.log('empty');
+                await addRole();
+                return;
             }
             else if (answers.action === 'View All Departments'){
                 console.log('empty');
@@ -165,7 +213,7 @@ async function init(){
     await dropTables();
     await createTables();
     await seedTables();
-    console.log('\n\n---EMPLOYEE MANAGER---\n');
+    console.log('\n\n-------EMPLOYEE MANAGER-------\n');
     prompt();
 }
 
