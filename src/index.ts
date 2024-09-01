@@ -73,6 +73,7 @@ async function viewAllEmployees() {
         const result = await pool.query('SELECT * FROM employee;');
         console.log(`\n\nAll Employees:\n`);
         console.log(result.rows);
+        console.log('\n');
     } catch (err) {
         console.error('ERROR WITH VIEWING ALL EMPLOYEES: ' + err);
     }
@@ -118,6 +119,7 @@ async function viewAllRoles() {
         const result = await pool.query('SELECT * FROM role;');
         console.log(`\n\nAll Roles:\n`);
         console.log(result.rows);
+        console.log('\n');
     }
     catch (err) {
         console.error('ERROR WITH VIEWING ALL ROLES: ' + err);
@@ -150,6 +152,38 @@ async function addRole(){
                 prompt();
             } catch (err) {
                 console.error('ERROR WITH ADDING ROLE: ' + err);
+            }
+        });
+}
+
+async function viewAllDepartments() {
+    try {
+        const result = await pool.query('SELECT * FROM department;');
+        console.log(`\n\nAll Departments:\n`);
+        console.log(result.rows);
+        console.log('\n');
+    }
+    catch (err) {
+        console.error('ERROR WITH VIEWING ALL DEPARTMENTS: ' + err);
+    }
+}
+
+async function addDepartment(){
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: 'Enter department name:',
+            },
+        ])
+        .then(async (answers) => {
+            try {
+                await pool.query(`INSERT INTO department (name) VALUES ('${answers.name}');`);
+                console.log('DEPARTMENT ADDED.');
+                prompt();
+            } catch (err) {
+                console.error('ERROR WITH ADDING DEPARTMENT: ' + err);
             }
         });
 }
@@ -194,10 +228,11 @@ async function prompt(){
                 return;
             }
             else if (answers.action === 'View All Departments'){
-                console.log('empty');
+                await viewAllDepartments();
             }
             else if (answers.action === 'Add Department'){
-                console.log('empty');
+                await addDepartment();
+                return;
             }
             else {
                 exit = true;
