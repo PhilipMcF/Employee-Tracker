@@ -108,11 +108,14 @@ async function addEmployee() {
         }
         catch (err) {
             console.error('ERROR WITH ADDING EMPLOYEE: ' + err);
+            console.log(`Please enter a valid role id:`);
+            addEmployee();
         }
     });
 }
 async function updateEmployeeRole() {
     await viewAllEmployees();
+    await viewAllRoles();
     inquirer
         .prompt([
         {
@@ -134,6 +137,8 @@ async function updateEmployeeRole() {
         }
         catch (err) {
             console.error('ERROR WITH UPDATING EMPLOYEE ROLE: ' + err);
+            console.log(`Please enter a valid employee and role id:`);
+            updateEmployeeRole();
         }
     });
 }
@@ -151,6 +156,7 @@ JOIN department ON role.department_id = department.id;`);
     }
 }
 async function addRole() {
+    await viewAllRoles();
     await viewAllDepartments();
     inquirer
         .prompt([
@@ -178,6 +184,8 @@ async function addRole() {
         }
         catch (err) {
             console.error('ERROR WITH ADDING ROLE: ' + err);
+            console.log(`Please enter a valid department id:`);
+            addRole();
         }
     });
 }

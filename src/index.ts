@@ -161,6 +161,7 @@ JOIN department ON role.department_id = department.id;`);
 }
 
 async function addRole(){
+    await viewAllRoles();
     await viewAllDepartments();
     inquirer
         .prompt([
