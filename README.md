@@ -36,7 +36,7 @@ npm install
 ```
 
 ## Usage
-[Employee Tracker Video Showcase](TODO:)
+[Employee Tracker Video Showcase](https://drive.google.com/file/d/18DgVzCf4QpWbKohBl0_FjLmuaGRf70AU/view?usp=sharing)
 
 To start the project, make sure you are in the directory of the repo/project and run this command in a terminal window:
 ```bash
